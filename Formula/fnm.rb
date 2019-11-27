@@ -11,8 +11,6 @@ class Fnm < Formula
 
   bottle :unneeded
 
-  depends_on "openssl"
-
   def install
     bin.install 'fnm'
   end
