@@ -2,6 +2,8 @@
 
 # Fnm formula :D
 class Fnm < Formula
+  attr_accessor :shell_configuration_failure
+
   VERSION = '1.18.0'
   desc 'Fast and simple Node.js version manager'
   homepage 'https://github.com/Schniz/fnm'
@@ -10,6 +12,8 @@ class Fnm < Formula
   sha256 'b04373fa6a5c2382d975a5086032b45e8f1dae5020912b8e8dba8dfcd01d5e8c'
 
   bottle :unneeded
+
+  option "without-shell-config", "Don't configure the shell"
 
   test do
     system "#{bin}/fnm", '--version'
@@ -25,7 +29,20 @@ class Fnm < Formula
 
   def caveats
     if configure_shell?
-      "No `# fnm` in #{shell_profile}, so fnm was installed to it."
+      if shell_configuration_failure.nil?
+        "No `# fnm` in #{shell_profile}, so fnm was installed to it."
+      else
+        <<~CAVEATS
+          Failed installing fnm to your shell file:
+          #{shell_configuration_failure.inspect}
+
+          We assumed your shell is #{preferred} and the file is at #{shell_profile.inspect}.
+          To install it manually, add the following to the file:
+
+            # fnm
+            #{source_for_shell}
+        CAVEATS
+      end
     else
       <<~CAVEATS
         Skipped the installation of fnm to #{shell_profile} because I found `# fnm`.
@@ -43,7 +60,8 @@ class Fnm < Formula
   end
 
   def fnm_already_configured?
-    File.read(File.expand_path(shell_profile)).include?('# fnm')
+    build.without?('shell-config') ||
+      File.read(File.expand_path(shell_profile)).include?('# fnm')
   rescue
     puts "Can't read shell profile!"
     false
@@ -62,5 +80,7 @@ class Fnm < Formula
       f << "\n# fnm\n"
       f << "#{source_for_shell}\n"
     end
+  rescue => e
+    self.shell_configuration_failed = e
   end
 end
