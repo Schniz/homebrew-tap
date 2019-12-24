@@ -31,7 +31,9 @@ class Fnm < Formula
   end
 
   def fnm_already_configured?
-    File.read(File.expand_path(shell_profile)).include?('# fnm')
+    x = File.read(File.expand_path(shell_profile)).include?('# fnm')
+    puts x
+    x
   rescue
     puts "Can't read shell profile!"
     false
