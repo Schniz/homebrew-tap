@@ -13,6 +13,8 @@ class Fnm < Formula
 
   bottle :unneeded
 
+  option "without-shell-config", "Don't configure the shell"
+
   test do
     system "#{bin}/fnm", '--version'
   end
@@ -58,7 +60,8 @@ class Fnm < Formula
   end
 
   def fnm_already_configured?
-    File.read(File.expand_path(shell_profile)).include?('# fnm')
+    build.without?('shell-config') ||
+      File.read(File.expand_path(shell_profile)).include?('# fnm')
   rescue
     puts "Can't read shell profile!"
     false
