@@ -2,6 +2,8 @@
 
 # Fnm formula :D
 class Fnm < Formula
+  attr_accessor :shell_configuration_failure
+
   VERSION = '1.18.0'
   desc 'Fast and simple Node.js version manager'
   homepage 'https://github.com/Schniz/fnm'
@@ -25,7 +27,20 @@ class Fnm < Formula
 
   def caveats
     if configure_shell?
-      "No `# fnm` in #{shell_profile}, so fnm was installed to it."
+      if shell_configuration_failure.nil?
+        "No `# fnm` in #{shell_profile}, so fnm was installed to it."
+      else
+        <<~CAVEATS
+          Failed installing fnm to your shell file:
+          #{shell_configuration_failure.inspect}
+
+          We assumed your shell is #{preferred} and the file is at #{shell_profile.inspect}.
+          To install it manually, add the following to the file:
+
+            # fnm
+            #{source_for_shell}
+        CAVEATS
+      end
     else
       <<~CAVEATS
         Skipped the installation of fnm to #{shell_profile} because I found `# fnm`.
@@ -62,5 +77,7 @@ class Fnm < Formula
       f << "\n# fnm\n"
       f << "#{source_for_shell}\n"
     end
+  rescue => e
+    self.shell_configuration_failed = e
   end
 end
