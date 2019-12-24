@@ -11,12 +11,22 @@ class Fnm < Formula
 
   bottle :unneeded
 
+  test do
+    system "#{bin}/fnm", '--version'
+  end
+
   def install
     bin.install 'fnm'
+
+    if configure_shell?
+      configure_shell
+    end
   end
 
   def caveats
-    if fnm_already_configured?
+    if configure_shell?
+      "No `# fnm` in #{shell_profile}, so fnm was installed to it."
+    else
       <<~CAVEATS
         Skipped the installation of fnm to #{shell_profile} because I found `# fnm`.
         In case you want to do it manually, add the following to the file:
@@ -24,10 +34,12 @@ class Fnm < Formula
           # fnm
           #{source_for_shell}
       CAVEATS
-    else
-      setup_shells
-      "No `# fnm` in #{shell_profile}, so fnm was installed to it."
     end
+  end
+
+  def configure_shell?
+    @shell_already_configured ||= fnm_already_configured?
+    !@shell_already_configured
   end
 
   def fnm_already_configured?
@@ -45,14 +57,10 @@ class Fnm < Formula
     end
   end
 
-  def setup_shells
+  def configure_shell
     File.open(File.expand_path(shell_profile), 'a') do |f|
-      f << "# fnm\n"
+      f << "\n# fnm\n"
       f << "#{source_for_shell}\n"
     end
-  end
-
-  test do
-    system "#{bin}/fnm", '--version'
   end
 end

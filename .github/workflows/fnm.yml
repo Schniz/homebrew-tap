@@ -1,0 +1,15 @@
+name: fnm
+
+on: [push]
+
+jobs:
+  install:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: "Install local formula with Homebrew"
+      run: brew install --build-from-source Formula/fnm.rb
+    - name: "Run fnm"
+      run: fnm --version
