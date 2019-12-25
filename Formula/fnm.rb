@@ -81,6 +81,6 @@ class Fnm < Formula
       f << "#{source_for_shell}\n"
     end
   rescue => e
-    self.shell_configuration_failed = e
+    self.shell_configuration_failure = e
   end
 end
