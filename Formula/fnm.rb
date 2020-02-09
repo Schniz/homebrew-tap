@@ -13,58 +13,30 @@ class Fnm < Formula
 
   bottle :unneeded
 
-  option "without-shell-config", "Don't configure the shell"
-
   test do
     system "#{bin}/fnm", '--version'
   end
 
   def install
     bin.install 'fnm'
-
-    if configure_shell?
-      configure_shell
-    end
   end
 
   def caveats
-    if configure_shell?
-      if shell_configuration_failure.nil?
-        "No `# fnm` in #{shell_profile}, so fnm was installed to it."
-      else
-        <<~CAVEATS
-          Failed installing fnm to your shell file:
-          #{shell_configuration_failure.inspect}
+    <<~CAVEATS
+      Thanks for installing fnm!
+      The last step for making fnm work is to run it on the shell startup, using the `fnm env` command.
 
-          We assumed your shell is #{preferred} and the file is at #{shell_profile.inspect}.
-          To install it manually, add the following to the file:
+      In order to complete the installation, please add the following to your shell profile:
 
-            # fnm
-            #{source_for_shell}
-        CAVEATS
-      end
-    else
-      <<~CAVEATS
-        Skipped the installation of fnm to #{shell_profile} because I found `# fnm`.
-        In case you want to do it manually, add the following to the file:
+        # fnm
+        #{source_for_shell}
 
-          # fnm
-          #{source_for_shell}
-      CAVEATS
-    end
-  end
+      Homebrew tells us that #{preferred} is your preferred shell,
+      and your shell profile is at #{shell_profile.inspect}, if that helps 😇
 
-  def configure_shell?
-    @shell_already_configured ||= fnm_already_configured?
-    !@shell_already_configured
-  end
-
-  def fnm_already_configured?
-    build.without?('shell-config') ||
-      File.read(File.expand_path(shell_profile)).include?('# fnm')
-  rescue
-    puts "Can't read shell profile!"
-    false
+      > btw, if you know how to make this process automated, help us out with a PR!
+      > the code is here: https://github.com/Schniz/homebrew-tap/blob/master/Formula/fnm.rb
+    CAVEATS
   end
 
   def source_for_shell
@@ -73,14 +45,5 @@ class Fnm < Formula
     else
       %{eval "$(fnm env --multi)"}
     end
-  end
-
-  def configure_shell
-    File.open(File.expand_path(shell_profile), 'a') do |f|
-      f << "\n# fnm\n"
-      f << "#{source_for_shell}\n"
-    end
-  rescue => e
-    self.shell_configuration_failure = e
   end
 end
