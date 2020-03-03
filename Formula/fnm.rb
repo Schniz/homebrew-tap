@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Fnm formula :D
 class Fnm < Formula
   attr_accessor :shell_configuration_failure
