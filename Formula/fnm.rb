@@ -4,12 +4,12 @@
 class Fnm < Formula
   attr_accessor :shell_configuration_failure
 
-  VERSION = '1.19.0'
+  VERSION = '1.20.0'
   desc 'Fast and simple Node.js version manager'
   homepage 'https://github.com/Schniz/fnm'
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
   version VERSION
-  sha256 '172ed9321921b840d890c0097568de5e45d48df054964a83df18e98af841c7eb'
+  sha256 '3574a2df4fd5a484c6c4f848cf86a08c6393be252b0bf0984debb863f52638a4'
 
   bottle :unneeded
 
