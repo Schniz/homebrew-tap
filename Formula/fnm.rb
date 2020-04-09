@@ -7,9 +7,15 @@ class Fnm < Formula
   VERSION = '1.20.0'
   desc 'Fast and simple Node.js version manager'
   homepage 'https://github.com/Schniz/fnm'
-  url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
   version VERSION
-  sha256 '3574a2df4fd5a484c6c4f848cf86a08c6393be252b0bf0984debb863f52638a4'
+
+  if OS.mac?
+    url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
+    sha256 '3574a2df4fd5a484c6c4f848cf86a08c6393be252b0bf0984debb863f52638a4'
+  else
+    url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-linux.zip"
+    sha256 'e0a4784cb297adf23fc6b9de16da41df4fb5dbba1ccc125b8c50a67acba91c30'
+  end
 
   bottle :unneeded
 
