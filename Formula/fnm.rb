@@ -11,6 +11,21 @@ class Fnm < Formula
 
   def install
     bin.install "fnm"
+    chmod "+x", bin/"fnm"
+    %w[
+      alias
+      default
+      env
+      exec
+      install
+      ls
+      ls-remote
+      uninstall
+      use
+    ].each do |cmd|
+      (man1/"fnm-#{cmd}.1").write `#{bin}/fnm #{cmd} --help=groff`
+    end
+    (man1/"fnm.1").write `#{bin}/fnm --help=groff`
   end
 
   def caveats
