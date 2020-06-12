@@ -40,7 +40,7 @@ class Fnm < Formula
   end
 
   def source_for_shell
-    if preferred == 'fish'
+    if preferred == :fish
       'fnm env --multi | source'
     else
       %{eval "$(fnm env --multi)"}
