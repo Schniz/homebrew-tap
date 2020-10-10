@@ -7,11 +7,12 @@ class Fnm < Formula
   homepage "https://github.com/Schniz/fnm"
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
   sha256 "9e434d699df82e9ddcdf55d54126bd80c8be2fd2d5e8359adfa0929ec14dc555"
+  license "GPL-3.0-only"
 
   def install
     bin.install "fnm"
 
-    (bin/"fnm").chmod "u+x"
+    (bin/"fnm").chmod 0555
     (bash_completion/"fnm").write `#{bin}/fnm completions --shell bash`
     (fish_completion/"fnm.fish").write `#{bin}/fnm completions --shell fish`
     (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
