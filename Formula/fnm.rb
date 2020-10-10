@@ -18,10 +18,6 @@ class Fnm < Formula
     (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
   end
 
-  test do
-    system "#{bin}/fnm", "--version"
-  end
-
   def caveats
     <<~CAVEATS
       Thanks for installing fnm!
@@ -40,11 +36,15 @@ class Fnm < Formula
     CAVEATS
   end
 
+  test do
+    system "#{bin}/fnm", "--version"
+  end
+
   def source_for_shell
     if preferred == :fish
       "fnm env --multi | source"
     else
-      %Q{eval "$(fnm env --multi)"}
+      'eval "$(fnm env --multi)"'
     end
   end
 end
