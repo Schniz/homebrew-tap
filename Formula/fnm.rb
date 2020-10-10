@@ -11,7 +11,10 @@ class Fnm < Formula
   version VERSION
   sha256 '9e434d699df82e9ddcdf55d54126bd80c8be2fd2d5e8359adfa0929ec14dc555'
 
-  bottle :unneeded
+  livecheck do
+    url "https://github.com/Schniz/fnm/releases/latest"
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+)["' >]}i)
+  end
 
   test do
     system "#{bin}/fnm", '--version'
