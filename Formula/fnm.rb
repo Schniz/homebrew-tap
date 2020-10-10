@@ -20,10 +20,7 @@ class Fnm < Formula
   def install
     bin.install 'fnm'
 
-    puts "#" * 40
-    puts Dir["#{bin}/*"]
-    puts "#" * 40
-
+    system "chmod", "u+x", "#{bin}/fnm"
     (bash_completion/"fnm").write `#{bin}/fnm completions --shell bash`
     (fish_completion/"fnm.fish").write `#{bin}/fnm completions --shell fish`
     (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
