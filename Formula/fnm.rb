@@ -19,6 +19,10 @@ class Fnm < Formula
 
   def install
     bin.install 'fnm'
+
+    (bash_completion/"fnm").write `#{bin}/fnm completions --shell bash`
+    (fish_completion/"fnm.fish").write `#{bin}/fnm completions --shell fish`
+    (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
   end
 
   def caveats
