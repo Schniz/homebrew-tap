@@ -2,28 +2,20 @@
 
 # Fnm formula :D
 class Fnm < Formula
-  attr_accessor :shell_configuration_failure
-
-  VERSION = '1.22.0-beta-1'
-  desc 'Fast and simple Node.js version manager'
-  homepage 'https://github.com/Schniz/fnm'
+  VERSION = "1.22.0-beta-1"
+  desc "Fast and simple Node.js version manager"
+  homepage "https://github.com/Schniz/fnm"
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
-  version VERSION
-  sha256 '9e434d699df82e9ddcdf55d54126bd80c8be2fd2d5e8359adfa0929ec14dc555'
-
-  livecheck do
-    url "https://github.com/Schniz/fnm/releases/latest"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+)["' >]}i)
-  end
+  sha256 "9e434d699df82e9ddcdf55d54126bd80c8be2fd2d5e8359adfa0929ec14dc555"
 
   test do
-    system "#{bin}/fnm", '--version'
+    system "#{bin}/fnm", "--version"
   end
 
   def install
-    bin.install 'fnm'
+    bin.install "fnm"
 
-    system "chmod", "u+x", "#{bin}/fnm"
+    (bin/"fnm").chmod "u+x"
     (bash_completion/"fnm").write `#{bin}/fnm completions --shell bash`
     (fish_completion/"fnm.fish").write `#{bin}/fnm completions --shell fish`
     (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
@@ -49,7 +41,7 @@ class Fnm < Formula
 
   def source_for_shell
     if preferred == :fish
-      'fnm env --multi | source'
+      "fnm env --multi | source"
     else
       %{eval "$(fnm env --multi)"}
     end
