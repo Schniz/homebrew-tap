@@ -8,10 +8,6 @@ class Fnm < Formula
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
   sha256 "9e434d699df82e9ddcdf55d54126bd80c8be2fd2d5e8359adfa0929ec14dc555"
 
-  test do
-    system "#{bin}/fnm", "--version"
-  end
-
   def install
     bin.install "fnm"
 
@@ -19,6 +15,10 @@ class Fnm < Formula
     (bash_completion/"fnm").write `#{bin}/fnm completions --shell bash`
     (fish_completion/"fnm.fish").write `#{bin}/fnm completions --shell fish`
     (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
+  end
+
+  test do
+    system "#{bin}/fnm", "--version"
   end
 
   def caveats
@@ -43,7 +43,7 @@ class Fnm < Formula
     if preferred == :fish
       "fnm env --multi | source"
     else
-      %{eval "$(fnm env --multi)"}
+      %Q{eval "$(fnm env --multi)"}
     end
   end
 end
