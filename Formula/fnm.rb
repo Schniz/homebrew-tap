@@ -9,7 +9,7 @@ class Fnm < Formula
   homepage 'https://github.com/Schniz/fnm'
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
   version VERSION
-  sha256 '4342be2b3be75e440b90e9ab063df5124e12e2b2d83ac29be34235d3e151faf3'
+  sha256 '9e434d699df82e9ddcdf55d54126bd80c8be2fd2d5e8359adfa0929ec14dc555'
 
   bottle :unneeded
 
