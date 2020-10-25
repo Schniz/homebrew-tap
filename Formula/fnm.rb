@@ -2,23 +2,20 @@
 
 # Fnm formula :D
 class Fnm < Formula
-  attr_accessor :shell_configuration_failure
-
-  VERSION = '1.21.0'
-  desc 'Fast and simple Node.js version manager'
-  homepage 'https://github.com/Schniz/fnm'
+  VERSION = "1.22.0"
+  desc "Fast and simple Node.js version manager"
+  homepage "https://github.com/Schniz/fnm"
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
-  version VERSION
-  sha256 '4342be2b3be75e440b90e9ab063df5124e12e2b2d83ac29be34235d3e151faf3'
-
-  bottle :unneeded
-
-  test do
-    system "#{bin}/fnm", '--version'
-  end
+  sha256 "6a443090f47089fd81956b1886882e3c05fb0aa8bfe3b959ff28f9c689c7f27a"
+  license "GPL-3.0-only"
 
   def install
-    bin.install 'fnm'
+    bin.install "fnm"
+
+    (bin/"fnm").chmod 0555
+    (bash_completion/"fnm").write `#{bin}/fnm completions --shell bash`
+    (fish_completion/"fnm.fish").write `#{bin}/fnm completions --shell fish`
+    (zsh_completion/"_fnm").write `#{bin}/fnm completions --shell zsh`
   end
 
   def caveats
@@ -39,11 +36,15 @@ class Fnm < Formula
     CAVEATS
   end
 
+  test do
+    system "#{bin}/fnm", "--version"
+  end
+
   def source_for_shell
     if preferred == :fish
-      'fnm env --multi | source'
+      "fnm env --multi | source"
     else
-      %{eval "$(fnm env --multi)"}
+      'eval "$(fnm env --multi)"'
     end
   end
 end

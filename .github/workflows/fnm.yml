@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: "Install local formula with Homebrew"
-      run: brew install --build-from-source Formula/fnm.rb
+      run: brew install ./Formula/fnm.rb
     - name: "Run fnm"
       run: fnm --version
