@@ -3,11 +3,11 @@
 
 # Fnm formula :D
 class Fnm < Formula
-  VERSION = "1.22.1"
+  VERSION = "1.22.2"
   desc "Fast and simple Node.js version manager"
   homepage "https://github.com/Schniz/fnm"
   url "https://github.com/Schniz/fnm/releases/download/v#{VERSION}/fnm-macos.zip"
-  sha256 "3f5285cced47e045d556fe90095ab66e0ca8e194d476e3db6f2a09924c2b65c0"
+  sha256 "4136de871e4deb2d167d2cddcabdee0f9b21c0c6a639c9b7dba7ce451a9450b1"
   license "GPL-3.0-only"
 
   def install
